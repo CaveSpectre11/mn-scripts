@@ -1,0 +1,77 @@
+#!/bin/bash
+# Define each coin with their "success" string; e.g.
+# lightpaycoin returns
+#       "message" : "Masternode successfully started"
+# whereas wilo returns
+#       "status": "Masternode successfully started"
+# so set the string to be "status followed by anything followed by success"
+# or "message followed by anything followed by success"
+# therefore regular expressions of "status.*success" and "message.*success"
+declare -A coins=(
+[wilo]=status.*success
+[aprcoin]=status.*success
+[adirondack]=status.*success
+[idapay]=status.*success
+[coin2play]=status.*success
+[axe]=status.*success
+[linuxpay]=status.*success
+[solarium]=message.*success
+[dacash]=status.*success
+[stakecube]=message.*success
+[emrals]=status.*success
+[ultranatum]=status.*success
+[zenad]=status.*success
+[stakecube]=message.*success
+[essence]=status.*success
+[lightpaycoin]=message.*success
+[gamblecoin]=message.*success
+)
+
+homedir=~/   # set this to the highest parent directory to speed up the search
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+# Make the array of coins;
+# foreach coin
+#  whereis coin-cli -> save find time. support more coins
+# make the good array
+# make the wait array
+# goodregex=${goodarray[$coin]
+# waitregex=${waitarray[$coin]
+
+for i in "${!coins[@]}"
+do
+
+ # look for the cli, and skip if it doesn't exist
+ whereis=`whereis $i-cli`
+ whereis="${whereis#*:}"
+ if [[ ! $whereis = *[!\ ]* ]]; then
+  continue
+ fi
+
+ goodregex=${coins[$i]}
+ mnsregex="Hot node"
+ # find all the conf files for the coin
+ find $homedir -name $i.conf -print | while read -r line
+ do
+   datadir="${line%/*}" # remove the conf file name
+   if $i-cli -datadir=$datadir masternode status 2>&1 \
+      | grep -e $goodregex > /dev/null 2>&1
+   then
+     echo -e "$datadir: ${GREEN}passed${NC}"
+   else
+     # clean this whole thing up later
+     if $i-cli -datadir=$datadir masternode status 2>&1 \
+      | grep -e $mnsregex > /dev/null 2>&1
+     then
+       echo -e "$datadir: ${YELLOW}restart alias${NC}"
+     else
+       echo -e "$datadir: ${RED}failed${NC} ( $i-cli -datadir=$datadir master
+node status )"
+     fi
+   fi
+
+ done
+done
