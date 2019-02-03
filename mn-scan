@@ -1,36 +1,47 @@
 #!/bin/bash
-# Define each coin with their "success" string; e.g.
-# lightpaycoin returns
-#       "message" : "Masternode successfully started"
-# whereas wilo returns
-#       "status": "Masternode successfully started"
-# so set the string to be "status followed by anything followed by success"
-# or "message followed by anything followed by success"
-# therefore regular expressions of "status.*success" and "message.*success"
+#
+# CaveSpectre's Masternode Scan Script
+#       Any questions, find me on discord: CaveSpectre#1277
+#       or email crypto@pontificatingnobody.com
+#
+#       Any tips (Appreciated but not expected)
+#         ETH & Tokens: 0xbd389f6622083b967c32026706fde83e599b7cfa
+#         BTC: 1LcaRjBWuR9h42wx4Emh9xBMke4rLYyf74
+#         GambleCoin: CQTAhA9R28nHAuRpRqmf6WAJkMYwEYBY9A
+#
+#    03-Feb-2019 - Initial Creation
+#
+#  This script will check if any of the configured coins are in your execution path, and
+#  if so, will find the conf files for the coin, and execute masternode status for said
+#  coins.  It will parse the output to determine if it's up and running, if it's completely
+#  failed, or if it's ready to be started from the wallet.  The supported coins is a living
+#  configuration; as many coins have different text matches.  This script is designed to have
+#  the match regular expression for each coin to be configurable.  This will evolve over time.
+
 declare -A coins=(
-[wilo]=status.*success
-[aprcoin]=status.*success
-[adirondack]=status.*success
-[idapay]=status.*success
-[coin2play]=status.*success
-[axe]=status.*success
-[linuxpay]=status.*success
-[solarium]=message.*success
-[dacash]=status.*success
-[stakecube]=message.*success
-[emrals]=status.*success
-[ultranatum]=status.*success
-[zenad]=status.*success
-[stakecube]=message.*success
-[essence]=status.*success
-[lightpaycoin]=message.*success
-[gamblecoin]=message.*success
+  [adirondack]=status.*success
+  [aprcoin]=status.*success
+  [axe]=status.*success
+  [coin2play]=status.*success
+  [dacash]=status.*success
+  [emrals]=status.*success
+  [essence]=status.*success
+  [gamblecoin]=message.*success
+  [idapay]=status.*success
+  [lightpaycoin]=message.*success
+  [linuxpay]=status.*success
+  [stakecube]=message.*success
+  [solarium]=message.*success
+  [ultranatum]=status.*success
+  [wilo]=status.*success
+  [zenad]=status.*success
 )
 
 homedir=~/   # set this to the highest parent directory to speed up the search
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 NC='\033[0m'
 
 # Make the array of coins;
@@ -52,7 +63,7 @@ do
  fi
 
  goodregex=${coins[$i]}
- mnsregex="Hot node"
+ mnsregex="Hot node"  # Needs to be configured into the configure array
  # find all the conf files for the coin
  find $homedir -name $i.conf -print | while read -r line
  do
