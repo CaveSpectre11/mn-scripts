@@ -1,0 +1,2 @@
+# mn-scripts
+Masternode Scripts
