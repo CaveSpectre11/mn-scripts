@@ -79,8 +79,7 @@ do
      then
        echo -e "$datadir: ${YELLOW}restart alias${NC}"
      else
-       echo -e "$datadir: ${RED}failed${NC} ( $i-cli -datadir=$datadir master
-node status )"
+       echo -e "$datadir: ${RED}failed${NC} ( $i-cli -datadir=$datadir masternode status )"
      fi
    fi
 
