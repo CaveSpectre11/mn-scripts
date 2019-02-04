@@ -20,10 +20,12 @@
 
 declare -A coins=(
   [adirondack]=status.*success
+  [alanis]=status.*success
   [aprcoin]=status.*success
   [axe]=status.*success
   [coin2play]=status.*success
   [dacash]=status.*success
+  [dextro]=status.*success
   [emrals]=status.*success
   [essence]=status.*success
   [gamblecoin]=message.*success
@@ -32,6 +34,7 @@ declare -A coins=(
   [linuxpay]=status.*success
   [stakecube]=message.*success
   [solarium]=message.*success
+  [ucc]=message.*success
   [ultranatum]=status.*success
   [wilo]=status.*success
   [zenad]=status.*success
