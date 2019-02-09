@@ -37,6 +37,7 @@ declare -A coins=(
   [lightpaycoin]=message.*success
   [linuxpay]=status.*success
   [omegacoin]=status.*success
+  [primestone]=message.*success
   [stakecube]=message.*success
   [solarium]=message.*success
   [ucc]=message.*success
