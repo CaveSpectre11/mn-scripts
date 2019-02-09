@@ -11,12 +11,14 @@
 #
 #    03-Feb-2019 - Initial Creation
 #
-#  This script will check if any of the configured coins are in your execution path, and
-#  if so, will find the conf files for the coin, and execute masternode status for said
-#  coins.  It will parse the output to determine if it's up and running, if it's completely
-#  failed, or if it's ready to be started from the wallet.  The supported coins is a living
-#  configuration; as many coins have different text matches.  This script is designed to have
-#  the match regular expression for each coin to be configurable.  This will evolve over time.
+#  This script will check if any of the configured coins are in your execution
+#  path, and if so, will find the conf files for the coin, and execute master-
+#  node status for said coins.  It will parse the output to determine if it's
+#  up and running, if it's completely failed, or if it's ready to be started
+#  from the wallet.  The supported coins is a living configuration; as many
+#  coins have different text matches.  This script is designed to have the
+#  match regular expression for each coin to be configurable.  This will
+#  evolve over time.
 
 declare -A coins=(
   [adirondack]=status.*success
@@ -82,7 +84,8 @@ do
      then
        echo -e "$datadir: ${YELLOW}restart alias${NC}"
      else
-       echo -e "$datadir: ${RED}failed${NC} ( $i-cli -datadir=$datadir masternode status )"
+       echo -e "$datadir: ${RED}failed${NC} ( $i-cli " \
+               "-datadir=$datadir masternode status )"
      fi
    fi
 
