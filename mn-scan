@@ -72,7 +72,7 @@ do
  fi
 
  goodregex=${coins[$i]}
- mnsregex="Hot.node"  # Needs to be configured into the configure array
+ mnsregex="Hot.node -e NEW_START"  # Needs to be configured into the configure array
  # find all the conf files for the coin
  find $homedir -name $i.conf -print | while read -r line
  do
