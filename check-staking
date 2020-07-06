@@ -1,0 +1,67 @@
+#!/bin/bash
+# CaveSpectre's Check Staking Script
+#       Any questions, find me on discord: CaveSpectre#1277
+#       or email crypto@pontificatingnobody.com
+#
+#       Any tips (Appreciated but not expected)
+#         ETH & Tokens: 0xbd389f6622083b967c32026706fde83e599b7cfa
+#         BTC: 1LcaRjBWuR9h42wx4Emh9xBMke4rLYyf74
+#         PIVX: DTcyfQNg8XBo1XfjcZqx3Ruvwqr565mCMu
+#         Veil: bv1qyr753jrgccqwxhqdfdfces2lzj8we3czcq4kwa
+#
+#    06-Jul-2020 - Initial Creation
+#
+#  This script will check the listed coins to verify that the daemon is running
+#  and properly staking.  Very simple, but a convenient check.
+
+# Coin Names
+declare -A names=(
+  [Altmarkets]="Altmarkets"
+  [ghost]="Ghost"
+  [gamblecoin]="GambleCoin"
+  [blastx]="Blast Exchange"
+  [dextro]="Dextro"
+  [merge]="Merge"
+  [ucc]="United Community Coin"
+  [wire]="Air Wire"
+)
+# getstakinginfo
+declare -A gsicoins=(
+  [Altmarkets]=staking.*true
+  [ghost]=staking.*true
+)
+
+#getinfo
+declare -A gicoins=(
+  [gamblecoin]=status.*Active
+  [blastx]=status.*Active
+  [dextro]=status.*Active
+  [merge]=status.*Active
+  [ucc]=status.*Active
+  [wire]=status.*Active
+)
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+for i in "${!gsicoins[@]}"
+do
+  if $i-cli getstakinginfo 2>&1| grep -e ${gsicoins[$i]} > /dev/null 2>&1
+  then
+    printf "%-22s: ${GREEN}Staking${NC}\n" "${names[$i]}"
+  else
+    printf "%-22s: ${RED}Not Staking${NC}\n" "${names[$i]}"
+  fi
+done
+
+for i in "${!gicoins[@]}"
+do
+  if $i-cli getinfo 2>&1| grep -e ${gicoins[$i]} > /dev/null 2>&1
+  then
+    printf "%-22s: ${GREEN}Staking${NC}\n" "${names[$i]}"
+  else
+    printf "%-22s: ${RED}Not Staking${NC}\n" "${names[$i]}"
+  fi
+done
